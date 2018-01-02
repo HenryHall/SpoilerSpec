@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Spoiler Speculator</title>
+    <link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/index.css">
+  </head>
+  <body>
+
+    <main ng-controller="mainController">
+
+      <div class="jumbotron">
+        <div class="container">
+          <h1>Spoiler Speculator - <small>Masters 25</small></h1>
+        </div>
+      </div>
+
+      <h2>Cards Spoiled: {{spoiledCount}}/249</h2>
+
+      <p>Enter spoiled cards to refine possible cards for each slot.  Select an open slot to see what is still a possible reprint.</p>
+
+      <div id="mainContent">
+
+        <table class="table table-bordered table-hover">
+          <caption>Spoiled Cards</caption>
+          <tr>
+            <th>Collector's Number</th>
+            <th>Card Name</th>
+          </tr>
+          <tr ng-repeat="card in spoiledCards">
+            <td>{{card.number}}</td>
+            <td>{{card.name}}</td>
+          </tr>
+        </table>
+
+
+        <table class="table table-bordered table-hover">
+          <caption>Possible Cards</caption>
+          <tr>
+            <tr>Card Name</tr>
+          </tr>
+          <tr ng-repeat="card in possibleCards">
+            <td>{{card.name}}</td>
+          </tr>
+        </table>
+
+      </div>
+
+    </main>
+
+
+    <script src="../vendor/angular.min.js" charset="utf-8"></script>
+    <!-- <script src="../vendor/bootstrap/js/bootstrap.min.js" charset="utf-8"></script> -->
+    <script src="../scripts/index.js" charset="utf-8"></script>
+  </body>
+</html>
