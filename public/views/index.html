@@ -16,34 +16,77 @@
         </div>
       </div>
 
-      <h2>Cards Spoiled: {{spoiledCount}}/249</h2>
-
-      <p>Enter spoiled cards to refine possible cards for each slot.  Select an open slot to see what is still a possible reprint.</p>
 
       <div id="mainContent">
 
-        <table class="table table-bordered table-hover">
-          <caption>Spoiled Cards</caption>
-          <tr>
-            <th>Collector's Number</th>
-            <th>Card Name</th>
-          </tr>
-          <tr ng-repeat="card in spoiledCards">
-            <td>{{card.number}}</td>
-            <td>{{card.name}}</td>
-          </tr>
-        </table>
+        <h2>Cards Spoiled: {{allSpoiledCards.length}}/249</h2>
+
+        <p>Enter spoiled cards to refine possible cards for each slot.  Select an open slot to see what is still a possible reprint.</p>
+
+        <div id="addCardsPanel" class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Add a Newly Spoiled Card</h3>
+          </div>
+          <div class="panel-body">
+
+            <div id="addCardAlert" role="alert" ng-click="hideAlert()">{{alertMessage}}</div>
+
+            <div>
+              <button ng-click="addNewCard()" class="btn btn-success">Add</button>
+
+              <div>
+                <div class="input-group">
+                  <span class="input-group-addon">Collector's Number</span>
+                  <input type="number" min="1" max="249" class="form-control" ng-model="collectorNumberIn">
+                </div>
+
+                <div class="input-group">
+                  <span class="input-group-addon">Card Name</span>
+                  <input class="form-control" ng-model="cardNameIn">
+                </div>
+
+                <!-- <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Card Color
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">{{colorOptions}}</a>
+                  </div>
+                </div> -->
+
+              </div>
+            </div>
 
 
-        <table class="table table-bordered table-hover">
-          <caption>Possible Cards</caption>
-          <tr>
-            <tr>Card Name</tr>
-          </tr>
-          <tr ng-repeat="card in possibleCards">
-            <td>{{card.name}}</td>
-          </tr>
-        </table>
+          </div>
+        </div>
+
+
+        <div id="resultsSection">
+          <table class="table table-bordered table-hover">
+            <caption>Spoiled Cards</caption>
+            <tr>
+              <th>Collector's Number</th>
+              <th>Card Name</th>
+            </tr>
+            <tr ng-repeat="card in allSpoiledCards">
+              <td>{{card.number}}</td>
+              <td>{{card.name}}</td>
+            </tr>
+          </table>
+
+
+          <table class="table table-bordered table-hover">
+            <caption>Possible Cards</caption>
+            <tr>
+              <th>Card Name</th>
+            </tr>
+            <tr ng-repeat="card in possibleCards">
+              <td>{{card.name}}</td>
+            </tr>
+          </table>
+        </div>
+
 
       </div>
 
