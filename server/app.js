@@ -17,3 +17,9 @@ app.get( '/', function( req, res ){
   console.log( 'Serving index' );
   res.sendFile( path.resolve( 'public/views/index.html' ) );
 });
+
+
+var getMasterList = require('../server/routes/getMasterList');
+
+
+app.use('/getMasterList', getMasterList);

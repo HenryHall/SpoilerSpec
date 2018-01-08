@@ -10,6 +10,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
 
   //Get spoiled card list on load
+  $scope.updateMasterList();
   //FIX when server is ready
   $scope.allSpoiledCards = [];
 
@@ -46,6 +47,16 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
   });
 
 
+  $scope.updateMasterList = function(){
+
+    $http({
+      method: 'GET',
+      url: '/getMasterList'
+    }).then((data) => {
+      console.log(data.data);
+    });
+
+  }
 
 
   $scope.addNewCard = function(){
