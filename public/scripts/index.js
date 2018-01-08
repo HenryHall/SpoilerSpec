@@ -47,7 +47,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
   });
 
 
-  $scope.updateMasterList = function(){
+  function updateMasterList(){
 
     $http({
       method: 'GET',
