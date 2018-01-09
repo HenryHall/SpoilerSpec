@@ -10,7 +10,7 @@ router.get('/', function(req, res){
     var query = client.query('SELECT * FROM spoilermasterlist');
 
     query.on('row', function(row){
-      results.push({number: row.collectornum, name: row.cardname});
+      results.push(row);
     });
 
     query.on('end', function(){

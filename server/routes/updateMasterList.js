@@ -7,14 +7,14 @@ router.put('/', function(req, res){
 
   pg.connect(connection, function(err, client, done){
 
-    client.query('UPDATE spoilermasterlist SET cardname = $1 WHERE collectornum = $2', [req.body.name, req.body.number])
+    client.query('UPDATE spoilermasterlist SET cardname = $1 AND status = "spoiled" WHERE collectornum = $2', [req.body.name, req.body.number])
     .then(function(){
       //Success
       var results = [];
       var query = client.query('SELECT * FROM spoilermasterlist');
 
       query.on('row', function(row){
-        results.push({number: row.collectornum, name: row.cardname});
+        results.push(row);
       });
 
       query.on('end', function(){

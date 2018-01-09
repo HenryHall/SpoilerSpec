@@ -10,9 +10,18 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
   //Initialize
   $scope.allSpoiledCards = [];
+  $scope.spoiledCount = 0;
+
+  $scope.$watch('allSpoiledCards', function(newVal, oldVal){
+    var spCount = 0;
+    newVal.forEach((card) => {
+      if (card.status == 'spoiled'){spCount++;}
+    });
+    $scope.spoiledCount = spCount;
+  });
 
   //Run on load
-  init()
+  init();
 
 
   function init(){
@@ -140,20 +149,20 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     };
 
     for (var i=0; i<$scope.allSpoiledCards.length; i++){
-      if($scope.allSpoiledCards[i].number < slotNumber){
-        limits.lower.index = i;
-      } else if (slotNumber < $scope.allSpoiledCards[i].number){
-        limits.upper.index = i;
+      if($scope.allSpoiledCards[i].number < slotNumber  && $scope.allSpoiledCards[i].status == 'spoiled'){
+        limits.lower.number = i;
+      } else if (slotNumber < $scope.allSpoiledCards[i].number && $scope.allSpoiledCards[i].status == 'spoiled'){
+        limits.upper.number = i;
         break;
       }
     }
 
     //No cards entered.  Every single magic card is still possible.
-    if (limits.lower.index == undefined && limits.upper.index == undefined) {return false;}
+    if (limits.lower.number == undefined && limits.upper.number == undefined) {return false;}
 
     //Determine limiting colors
     for (bound in limits){
-      if(bound.index && $scope.allSpoiledCards[bound.index].cardObject.hasOwnProperty('colors')){
+      if(bound.number && $scope.allSpoiledCards[bound.number].cardObject.hasOwnProperty('colors')){
         //No Colors
         if($scope.allSpoiledCards[bound.index].cardObject.type.includes('Basic')){
           bound.color = "Basic Land";
