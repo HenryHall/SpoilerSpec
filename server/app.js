@@ -20,6 +20,7 @@ app.get( '/', function( req, res ){
 
 
 var getMasterList = require('../server/routes/getMasterList');
-
+var updateMasterList = require('../server/routes/updateMasterList');
 
 app.use('/getMasterList', getMasterList);
+app.use('/updateMasterList', updateMasterList);

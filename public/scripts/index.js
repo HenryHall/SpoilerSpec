@@ -8,52 +8,37 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
   $scope.setSize = setSize;
 
-
-  //Get spoiled card list on load
-  updateMasterList();
-  //FIX when server is ready
+  //Initialize
   $scope.allSpoiledCards = [];
 
-  //Watch allSpoiledCards for changes and fill in blank entries
-  $scope.$watchCollection('allSpoiledCards', (newVal, oldVal) => {
-    console.log("Creating displaySpoilers...");
-    $scope.displaySpoilers = [];
-    for(var i=1; i<$scope.setSize+1; i++){
-      var foundFlag = false;
-      for(var j=0; j<newVal.length; j++){
-        if (i == newVal[j].number){
-          $scope.displaySpoilers.push(newVal[j]);
-          foundFlag = true;
-          break;
-        }
-      }
-
-      if (!foundFlag){
-        $scope.displaySpoilers.push({number: i});
-      }
-    }
-    console.log($scope.displaySpoilers);
-  });
-
-  //Get card data on load
-  //FIX when server is ready
-  $http({
-    method: 'GET',
-    url: 'https://raw.githubusercontent.com/HenryHall/SpoilerSpec/master/public/assets/AllCards.json'
-  }).then((data) => {
-    allCardsMaster = data.data;
-    console.log(allCardsMaster);
-    //Enable interaction
-  });
+  //Run on load
+  init()
 
 
-  function updateMasterList(){
+  function init(){
+    //Should this be hosted and used server side??
+    $http({
+      method: 'GET',
+      url: 'https://raw.githubusercontent.com/HenryHall/SpoilerSpec/master/public/assets/AllCards.json'
+    }).then((data) => {
+      allCardsMaster = data.data;
+      console.log(allCardsMaster);
+      //Enable interaction
+    });
+
+    //Get spoiled card list
+    getMasterList();
+  }
+
+
+  function getMasterList(){
 
     $http({
       method: 'GET',
       url: '/getMasterList'
     }).then((data) => {
       console.log(data.data);
+      $scope.allSpoiledCards = data.data;
     });
 
   }
@@ -63,32 +48,41 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     var nCardName = $scope.cardNameIn;
     var nCardNumber = $scope.collectorNumberIn;
 
-    if (!nCardName || ! nCardNumber) {return false;}
+    if (!nCardName || !nCardNumber) {return false;}
 
-    var nCardObject = createCardObject(nCardName);
+    //This validation should really be done server side...
     //Find card
+    var nCardObject = createCardObject(nCardName);
     if (!nCardObject) {
       return $scope.createAlert("Danger", "New spoiler was NOT added. " + nCardName + " does not exist.");
     }
 
     //Check for dupe collector number
-    for (var i = 0; i<$scope.allSpoiledCards.length; i++) {
-      var card = $scope.allSpoiledCards[i];
-      if (card.cardObject.name.toLowerCase() == nCardName.toLowerCase()){
-        return $scope.createAlert("Danger", "New spoiler was NOT added. " + nCardName + " is already assigned to " + card.number + ".");
-      } else if (card.number == nCardNumber){
-        return $scope.createAlert("Danger", "New spoiler was NOT added. Collector number " + nCardNumber + " is already assigned to " + card.cardObject.name + ".");
-      }
-    };
+    // for (var i = 0; i<$scope.allSpoiledCards.length; i++) {
+    //   var card = $scope.allSpoiledCards[i];
+    //   if (card.cardObject.name.toLowerCase() == nCardName.toLowerCase()){
+    //     return $scope.createAlert("Danger", "New spoiler was NOT added. " + nCardName + " is already assigned to " + card.number + ".");
+    //   } else if (card.number == nCardNumber){
+    //     return $scope.createAlert("Danger", "New spoiler was NOT added. Collector number " + nCardNumber + " is already assigned to " + card.cardObject.name + ".");
+    //   }
+    // };
 
-    //Success
-    //Make call to server to update the list
-    //$http({});
+
     console.log("Adding " + nCardName);
     $scope.cardNameIn = '';
     $scope.collectorNumberIn = '';
 
-    $scope.allSpoiledCards.push({cardObject: nCardObject, number: nCardNumber});
+
+    $http({
+      method: 'PUT',
+      data: {number: nCardNumber, name: nCardName}
+      url: '/updateMasterList'
+    }).then((data) => {
+      console.log(data.data);
+    });
+
+
+    // $scope.allSpoiledCards.push({number: nCardNumber, name: nCardName, cardObject: nCardObject});
     console.log($scope.allSpoiledCards);
     //Sort
     $scope.allSpoiledCards.sort( (a, b) => {
@@ -182,18 +176,38 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 }]);
 // .filter('cardFilter', function(){
 //   return function(input, model){
-//     console.log(input[0]);
+//
+//     input = input || '';
 //     var output = [];
-//     for (var i = 0; i<setSize; i++){
-//       if(input[0].number == i){
-//         output.push(input.shift());
-//       } else {
-//         output.push({cardObject: {name: "---------------"}, number: i});
+//     var maxCount = 0;
+//
+//     //Only filter after at least 2 characters have been entered
+//     if (model && model.length > 1){
+//
+//       //Search for matches starting at index 0 first
+//       for (var i=0; i<input.length; i++){
+//         if (input[i].toLowerCase().indexOf(model.toLowerCase()) == 0 && output.indexOf(input[i]) == -1){
+//           output.push(input[i]);
+//           maxCount++;
+//           if (maxCount == 10){return output;}
+//         }
 //       }
+//
+//       //Then search at any index
+//       for (var i=0; i<input.length; i++){
+//         if (input[i].toLowerCase().indexOf(model.toLowerCase()) !== -1 && output.indexOf(input[i]) == -1){
+//           output.push(input[i]);
+//           maxCount++;
+//           if (maxCount == 10){return output;}
+//         }
+//       }
+//
 //     }
+//
 //     return output;
 //   }
 // });
+
 
 
 // function sortSpoilerCollection(spoilerArr){
