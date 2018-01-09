@@ -136,8 +136,8 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
     //Stats for the known cards before and after this slot
     var limits = {
-      upper: undefined,
-      lower: undefined
+      upper: {index: undefined, color: undefined},
+      lower: {index: undefined, color: undefined}
     };
 
     for (var i=0; i<$scope.allSpoiledCards.length; i++){
