@@ -60,7 +60,7 @@
               <th>Collector's Number</th>
               <th>Card Name</th>
             </tr>
-            <tr ng-repeat="card in displaySpoilers">
+            <tr ng-repeat="card in allSpoiledCards | orderBy:'number'">
               <td>{{card.number}}</td>
               <td ng-if="card.name">{{card.name}}</td>
               <td ng-if="!card.name">TBD</td>
