@@ -75,7 +75,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
     $http({
       method: 'PUT',
-      data: {number: nCardNumber, name: nCardName}
+      data: {number: nCardNumber, name: nCardName},
       url: '/updateMasterList'
     }).then((data) => {
       console.log(data.data);
