@@ -7,7 +7,7 @@ router.put('/', function(req, res){
 
   pg.connect(connection, function(err, client, done){
 
-    client.query('UPDATE spoilermasterlist SET cardname = $1, status = "spoiled" WHERE collectornum = $2', [req.body.name, req.body.number])
+    client.query("UPDATE spoilermasterlist SET cardname = $1, status = 'spoiled' WHERE collectornum = $2", [req.body.name, req.body.number])
     .then(function(){
       //Success
       var results = [];
@@ -25,6 +25,7 @@ router.put('/', function(req, res){
       });
     }, function(err){
       //Error
+      console.log(err);
     });
   });
 });
