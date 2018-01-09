@@ -132,7 +132,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
 
 
-  function findPossibleCards(slotNumber){
+  $scope.findPossibleCards = function(slotNumber){
 
     //Stats for the known cards before and after this slot
     var limits = {
@@ -142,32 +142,32 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
     for (var i=0; i<$scope.allSpoiledCards.length; i++){
       if($scope.allSpoiledCards[i].collectornum < slotNumber  && $scope.allSpoiledCards[i].status == 'spoiled'){
-        limits.lower.collectornum = i;
+        limits.lower.index = i;
       } else if (slotNumber < $scope.allSpoiledCards[i].collectornum && $scope.allSpoiledCards[i].status == 'spoiled'){
-        limits.upper.collectornum = i;
+        limits.upper.index = i;
         break;
       }
     }
 
     //No cards entered.  Every single magic card is still possible.
-    if (limits.lower.collectornum == undefined && limits.upper.collectornum == undefined) {return false;}
+    if (limits.lower.index == undefined && limits.upper.index == undefined) {return false;}
 
     //Determine limiting colors
     for (bound in limits){
-      if(bound.collectornum && $scope.allSpoiledCards[bound.collectornum].cardObject.hasOwnProperty('colors')){
+      if(bound.index && $scope.allSpoiledCards[bound.index].cardObject.hasOwnProperty('colors')){
         //No Colors
-        if($scope.allSpoiledCards[bound.collectornum].cardObject.type.includes('Basic')){
+        if($scope.allSpoiledCards[bound.index].cardObject.type.includes('Basic')){
           bound.color = "Basic Land";
-        } else if ($scope.allSpoiledCards[bound.collectornum].cardObject.type.includes('Land')){
+        } else if ($scope.allSpoiledCards[bound.index].cardObject.type.includes('Land')){
           bound.color = "Nonbasic Land";
         } else {
           bound.color = "Colorless";
         }
-      } else if ($scope.allSpoiledCards[bound.collectornum].cardObject.colors.length > 1){
+      } else if ($scope.allSpoiledCards[bound.index].cardObject.colors.length > 1){
         //Multi-color
         bound.color = "Gold";
       } else {
-        bound.color = $scope.allSpoiledCards[bound.collectornum].cardObject.colors[0];
+        bound.color = $scope.allSpoiledCards[bound.index].cardObject.colors[0];
       }
     }
 
