@@ -91,14 +91,6 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
       $scope.allSpoiledCards = data.data;
     });
 
-
-    // $scope.allSpoiledCards.push({number: nCardNumber, name: nCardName, cardObject: nCardObject});
-    console.log($scope.allSpoiledCards);
-    //Sort
-    $scope.allSpoiledCards.sort( (a, b) => {
-      return a.number - b.number;
-    });
-
     $scope.createAlert("Success", "New spoiler, " + nCardName + ", has been added.");
 
   };
@@ -149,33 +141,33 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     };
 
     for (var i=0; i<$scope.allSpoiledCards.length; i++){
-      if($scope.allSpoiledCards[i].number < slotNumber  && $scope.allSpoiledCards[i].status == 'spoiled'){
-        limits.lower.number = i;
-      } else if (slotNumber < $scope.allSpoiledCards[i].number && $scope.allSpoiledCards[i].status == 'spoiled'){
-        limits.upper.number = i;
+      if($scope.allSpoiledCards[i].collectornum < slotNumber  && $scope.allSpoiledCards[i].status == 'spoiled'){
+        limits.lower.collectornum = i;
+      } else if (slotNumber < $scope.allSpoiledCards[i].collectornum && $scope.allSpoiledCards[i].status == 'spoiled'){
+        limits.upper.collectornum = i;
         break;
       }
     }
 
     //No cards entered.  Every single magic card is still possible.
-    if (limits.lower.number == undefined && limits.upper.number == undefined) {return false;}
+    if (limits.lower.collectornum == undefined && limits.upper.collectornum == undefined) {return false;}
 
     //Determine limiting colors
     for (bound in limits){
-      if(bound.number && $scope.allSpoiledCards[bound.number].cardObject.hasOwnProperty('colors')){
+      if(bound.collectornum && $scope.allSpoiledCards[bound.collectornum].cardObject.hasOwnProperty('colors')){
         //No Colors
-        if($scope.allSpoiledCards[bound.index].cardObject.type.includes('Basic')){
+        if($scope.allSpoiledCards[bound.collectornum].cardObject.type.includes('Basic')){
           bound.color = "Basic Land";
-        } else if ($scope.allSpoiledCards[bound.index].cardObject.type.includes('Land')){
+        } else if ($scope.allSpoiledCards[bound.collectornum].cardObject.type.includes('Land')){
           bound.color = "Nonbasic Land";
         } else {
           bound.color = "Colorless";
         }
-      } else if ($scope.allSpoiledCards[bound.index].cardObject.colors.length > 1){
+      } else if ($scope.allSpoiledCards[bound.collectornum].cardObject.colors.length > 1){
         //Multi-color
         bound.color = "Gold";
       } else {
-        bound.color = $scope.allSpoiledCards[bound.index].cardObject.colors[0];
+        bound.color = $scope.allSpoiledCards[bound.collectornum].cardObject.colors[0];
       }
     }
 
