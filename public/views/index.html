@@ -62,8 +62,8 @@
             </tr>
             <tr ng-repeat="card in displaySpoilers">
               <td>{{card.number}}</td>
-              <td ng-if="card.cardObject">{{card.cardObject.name}}</td>
-              <td ng-if="!card.cardObject">--------------------</td>
+              <td ng-if="card.name">{{card.name}}</td>
+              <td ng-if="!card.name">TBD</td>
             </tr>
           </table>
 

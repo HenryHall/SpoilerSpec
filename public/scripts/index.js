@@ -79,6 +79,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
       url: '/updateMasterList'
     }).then((data) => {
       console.log(data.data);
+      $scope.allSpoiledCards = data.data;
     });
 
 
