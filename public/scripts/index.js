@@ -183,7 +183,6 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     var cardOrderKey = ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless", "Nonbasic Land", "Basic Land"];
     for (card in allCardsMaster){
       iCardOrder = determineOrder(allCardsMaster[card]);
-      console.log(card, iCardOrder);
       //Check order key
       if(cardOrderKey.indexOf(iCardOrder) >= cardOrderKey.indexOf(limits.lower.order)  && cardOrderKey.indexOf(iCardOrder) <= cardOrderKey.indexOf(limits.upper.order)){
         //Check alphabetical
