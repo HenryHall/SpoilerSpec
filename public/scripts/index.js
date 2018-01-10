@@ -134,6 +134,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
   $scope.findPossibleCards = function(slotNumber){
 
+    console.log("Looking for cards near collector number: ", slotNumber);
     //Stats for the known cards before and after this slot
     var limits = {
       upper: undefined,
@@ -141,10 +142,9 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     };
 
     var min = 0;
-    var max = setSize;
+    var max = setSize + 1;
     //For each card, if it has a name and met bound conditions...
     $scope.allSpoiledCards.forEach((card, i, arr) => {
-      console.log(i, card);
       if (card.cardname && card.collectornum > min && card.collectornum < slotNumber){
         min = card.collectornum;
         limits.lower = arr[i];
@@ -156,7 +156,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
 
     //No cards entered.  Every single magic card is still possible.
-    if (limits.lower.cardname == undefined && limits.upper.cardname == undefined) {return false;}
+    if (limits.lower == undefined && limits.upper == undefined) {return false;}
 
     // var cardOrder = ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless", "Nonbasic Land", "Basic Land"];
 
