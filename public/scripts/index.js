@@ -179,9 +179,9 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     var cardOrderKey = ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless", "Nonbasic Land", "Basic Land"];
     for (card in allCardsMaster){
       iCardOrder = determineOrder(allCardsMaster[card]);
+      console.log(card, iCardOrder);
       //Check order key
       if(cardOrderKey.indexOf(iCardOrder) >= cardOrderKey.indexOf(limits.lower.order)  && cardOrderKey.indexOf(iCardOrder) <= cardOrderKey.indexOf(limits.upper.order)){
-        console.log(allCardsMaster[card].name);
         //Check alphabetical
         if(allCardsMaster[card].name > limits.lower.cardname && allCardsMaster[card].name < limits.upper.cardname){
           outputList.push({cardname: allCardsMaster[card].name});
