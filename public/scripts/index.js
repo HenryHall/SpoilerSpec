@@ -154,20 +154,21 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
     //Determine limiting colors
     for (bound in limits){
-      if(bound.index && $scope.allSpoiledCards[bound.index].cardObject.hasOwnProperty('colors')){
+      var cardObject = createCardObject($scope.allSpoiledCards[bound.index].name);
+      if(bound.index && cardObject.hasOwnProperty('colors')){
         //No Colors
-        if($scope.allSpoiledCards[bound.index].cardObject.type.includes('Basic')){
+        if(cardObject.type.includes('Basic')){
           bound.color = "Basic Land";
-        } else if ($scope.allSpoiledCards[bound.index].cardObject.type.includes('Land')){
+        } else if (cardObject.type.includes('Land')){
           bound.color = "Nonbasic Land";
         } else {
           bound.color = "Colorless";
         }
-      } else if ($scope.allSpoiledCards[bound.index].cardObject.colors.length > 1){
+      } else if (cardObject.colors.length > 1){
         //Multi-color
         bound.color = "Gold";
       } else {
-        bound.color = $scope.allSpoiledCards[bound.index].cardObject.colors[0];
+        bound.color = cardObject.colors[0];
       }
     }
 
