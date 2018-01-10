@@ -186,7 +186,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
           outputList.push({cardname: allCardsMaster[card].name});
         }
       }
-    });
+    };
 
     return $scope.possibleCards = outputList;
 
