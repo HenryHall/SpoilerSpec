@@ -177,12 +177,12 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
         //No Colors
         if(limits[bound].cardObject.type.includes('Basic')){
           limits[bound].order = "Basic Land";
-        } else if (cardObject.type.includes('Land')){
+        } else if (limits[bound].cardObject.type.includes('Land')){
           limits[bound].order = "Nonbasic Land";
         } else {
           limits[bound].order = "Colorless";
         }
-      } else if (cardObject.colors.length > 1){
+      } else if (limits[bound].cardObject.colors.length > 1){
         //Multi-color
         limits[bound].order = "Gold";
       } else {
