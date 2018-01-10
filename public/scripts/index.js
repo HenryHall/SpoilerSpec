@@ -57,6 +57,8 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     var nCardName = $scope.cardNameIn;
     var nCardNumber = $scope.collectorNumberIn;
 
+    console.log(nCardNumber, nCardName);
+
     if (!nCardName || !nCardNumber) {return false;}
 
     //This validation should really be done server side...
