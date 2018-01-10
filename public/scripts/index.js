@@ -181,6 +181,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
       iCardOrder = determineOrder(allCardsMaster[card]);
       //Check order key
       if(cardOrderKey.indexOf(iCardOrder) >= cardOrderKey.indexOf(limits.lower.order)  && cardOrderKey.indexOf(iCardOrder) <= cardOrderKey.indexOf(limits.upper.order)){
+        console.log(allCardsMaster[card].name);
         //Check alphabetical
         if(allCardsMaster[card].name > limits.lower.cardname && allCardsMaster[card].name < limits.upper.cardname){
           outputList.push({cardname: allCardsMaster[card].name});
