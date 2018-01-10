@@ -292,7 +292,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 // }
 
 function determineOrder(cardObject){
-  if(cardObject.hasOwnProperty('colors')){
+  if(!cardObject.hasOwnProperty('colors')){
     //No Colors
     if(cardObject.type.includes('Basic')){
       return "Basic Land";
