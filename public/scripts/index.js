@@ -158,40 +158,37 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     //No cards entered.  Every single magic card is still possible.
     if (limits.lower == undefined && limits.upper == undefined) {return false;}
 
-    // var cardOrder = ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless", "Nonbasic Land", "Basic Land"];
 
     //Determine limiting colors
     for (bound in limits){
-      console.log(bound);
-      console.log(limits.upper, limits.lower);
-      console.log(limits[bound]);
-      //If no spoiled card was bounding, continue
-      if(!limits[bound].hasOwnProperty('cardname')){
+      //If no spoiled card was bounding, set order and continue
+      if(limits[bound] == undefined){
         bound == upper ? limits[bound].order = "Basic Land" : limits[bound].order = "White";
         continue;
       }
 
       limits[bound].cardObject = createCardObject(limits[bound].cardname);
+      limits[bound].order = determineOrder(limits[bound].cardObject);
 
-      if(!limits[bound].cardObject.hasOwnProperty('colors')){
-        //No Colors
-        if(limits[bound].cardObject.type.includes('Basic')){
-          limits[bound].order = "Basic Land";
-        } else if (limits[bound].cardObject.type.includes('Land')){
-          limits[bound].order = "Nonbasic Land";
-        } else {
-          limits[bound].order = "Colorless";
-        }
-      } else if (limits[bound].cardObject.colors.length > 1){
-        //Multi-color
-        limits[bound].order = "Gold";
-      } else {
-        //Mono-color, pick first and only
-        limits[bound].order = limits[bound].cardObject.colors[0];
-      }
     }
 
-    return console.log(limits);
+    console.log(limits);
+
+    //Find all Cards
+    var outputList = [];
+    var cardOrderKey = ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless", "Nonbasic Land", "Basic Land"];
+    allCardsMaster.forEach((card) => {
+      iCardOrder = determineOrder(card);
+      //Check order key
+      if(cardOrderKey.indexOf(iCardOrder) >= cardOrderKey.indexOf(limits.lower.order)  && cardOrderKey.indexOf(iCardOrder) <= cardOrderKey.indexOf(limits.upper.order)){
+        //Check alphabetical
+        if(card.name > limits.lower.cardname && card.name < limits.upper.cardname){
+          outputList.push({cardname: card.name});
+        }
+      }
+    });
+
+    return $scope.possibleCards = outputList;
 
   }
 
@@ -293,6 +290,25 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 //   return spoilerArr;
 //
 // }
+
+function determineOrder(cardObject){
+  if(cardObject.hasOwnProperty('colors')){
+    //No Colors
+    if(cardObject.type.includes('Basic')){
+      return "Basic Land";
+    } else if (lcardObject.type.includes('Land')){
+      return "Nonbasic Land";
+    } else {
+      return "Colorless";
+    }
+  } else if (cardObject.colors.length > 1){
+    //Multi-color
+    return "Gold";
+  } else {
+    //Mono-color, pick first and only
+    return cardObject.colors[0];
+  }
+}
 
 
 function createCardObject(nCardName){
