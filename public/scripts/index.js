@@ -177,13 +177,13 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     //Find all Cards
     var outputList = [];
     var cardOrderKey = ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless", "Nonbasic Land", "Basic Land"];
-    allCardsMaster.forEach((card) => {
-      iCardOrder = determineOrder(card);
+    for (card in allCardsMaster){
+      iCardOrder = determineOrder(allCardsMaster[card]);
       //Check order key
       if(cardOrderKey.indexOf(iCardOrder) >= cardOrderKey.indexOf(limits.lower.order)  && cardOrderKey.indexOf(iCardOrder) <= cardOrderKey.indexOf(limits.upper.order)){
         //Check alphabetical
-        if(card.name > limits.lower.cardname && card.name < limits.upper.cardname){
-          outputList.push({cardname: card.name});
+        if(allCardsMaster[card].name > limits.lower.cardname && allCardsMaster[card].name < limits.upper.cardname){
+          outputList.push({cardname: allCardsMaster[card].name});
         }
       }
     });
