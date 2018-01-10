@@ -141,7 +141,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     };
 
     var min = 0;
-    var max = 0;
+    var max = setSize;
     //For each card, if it has a name and met bound conditions...
     $scope.allSpoiledCards.forEach((card, i, arr) => {
       console.log(i, card);
