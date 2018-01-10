@@ -235,7 +235,8 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
 
 function setActive(elem){
-  document.getElementsByClassName('active')[0].classList.remove('active');
+  var currentActive = document.getElementsByClassName('active')[0];
+  currentActive ? currentActive.classList.remove('active') : console.log('No class is currently active.');
   return elem.classList.add('active');
 }
 
