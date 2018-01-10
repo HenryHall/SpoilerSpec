@@ -134,7 +134,9 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
 
 
-  $scope.findPossibleCards = function(slotNumber){
+  $scope.findPossibleCards = function($event, slotNumber){
+
+    setActive($event.currentTarget);
 
     console.log("Looking for cards near collector number: ", slotNumber);
     //Stats for the known cards before and after this slot
@@ -230,6 +232,12 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 //     return output;
 //   }
 // });
+
+
+function setActive(elem){
+  document.getElementsByClassNames('active')[0].classList.remove('active');
+  return elem.classList.add('active');
+}
 
 
 function determineOrder(cardObject){

@@ -67,7 +67,7 @@
             <tr ng-repeat="card in allSpoiledCards | orderBy:'collectornum'">
               <td>{{card.collectornum}}</td>
               <td ng-if="card.cardname">{{card.cardname}}</td>
-              <td ng-if="!card.cardname" ng-click="findPossibleCards(card.collectornum)">TBD</td>
+              <td ng-if="!card.cardname" ng-click="findPossibleCards($event, card.collectornum)">TBD</td>
             </tr>
           </table>
 
@@ -77,7 +77,7 @@
             <tr>
               <th>Card Name</th>
             </tr>
-            <tr ng-repeat="card in possibleCards">
+            <tr ng-repeat="card in possibleCards | orderBy:'card.cardname'">
               <td>{{card.cardname}}</td>
             </tr>
           </table>
