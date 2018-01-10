@@ -296,7 +296,7 @@ function determineOrder(cardObject){
     //No Colors
     if(cardObject.type.includes('Basic')){
       return "Basic Land";
-    } else if (lcardObject.type.includes('Land')){
+    } else if (cardObject.type.includes('Land')){
       return "Nonbasic Land";
     } else {
       return "Colorless";
