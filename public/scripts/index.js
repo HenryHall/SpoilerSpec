@@ -144,6 +144,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     var max = 0;
     //For each card, if it has a name and met bound conditions...
     $scope.allSpoiledCards.forEach((card, i, arr) => {
+      console.log(i, card);
       if (card.cardname && card.collectornum > min && card.collectornum < slotNumber){
         min = card.collectornum;
         limits.lower = arr[i];
@@ -162,6 +163,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     //Determine limiting colors
     for (bound in limits){
       console.log(bound);
+      console.log(limits.upper, limits.lower);
       console.log(limits[bound]);
       //If no spoiled card was bounding, continue
       if(!limits[bound].hasOwnProperty(cardname)){
