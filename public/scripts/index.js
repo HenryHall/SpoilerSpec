@@ -154,6 +154,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
     //Determine limiting colors
     for (bound in limits){
+      console.log(bound);
       var cardObject = createCardObject($scope.allSpoiledCards[bound.index].name);
       if(bound.index && cardObject.hasOwnProperty('colors')){
         //No Colors
