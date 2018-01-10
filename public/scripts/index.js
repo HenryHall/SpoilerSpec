@@ -157,10 +157,11 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     //No cards entered.  Every single magic card is still possible.
     if (limits.lower.cardname == undefined && limits.upper.cardname == undefined) {return false;}
 
-    var cardOrder = ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless", "Nonbasic Land", "Basic Land"];
+    // var cardOrder = ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless", "Nonbasic Land", "Basic Land"];
 
     //Determine limiting colors
     for (bound in limits){
+      console.log(bound);
       console.log(limits[bound]);
       //If no spoiled card was bounding, continue
       if(!limits[bound].hasOwnProperty(cardname)){
