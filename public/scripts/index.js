@@ -136,40 +136,52 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
     //Stats for the known cards before and after this slot
     var limits = {
-      upper: {index: undefined, color: undefined},
-      lower: {index: undefined, color: undefined}
+      upper: undefined,
+      lower: undefined
     };
 
-    for (var i=0; i<$scope.allSpoiledCards.length; i++){
-      if($scope.allSpoiledCards[i].collectornum < slotNumber  && $scope.allSpoiledCards[i].status == 'spoiled'){
-        limits.lower.index = i;
-      } else if (slotNumber < $scope.allSpoiledCards[i].collectornum && $scope.allSpoiledCards[i].status == 'spoiled'){
-        limits.upper.index = i;
-        break;
+    var min = 0;
+    var max = 0;
+    //For each card, if it has a name and met bound conditions...
+    $scope.allSpoiledCards.forEach((card, i, arr) => {
+      if (card.cardname && card.collectornum > min && card.collectornum < slotNumber){
+        min = card.collectornum;
+        limits.lower = arr[i];
+      } else if (card.cardname && card.collectornum < max && card.collectornum > slotNumber){
+        max = card.collectornum;
+        limits.upper = arr[i];
       }
-    }
+    });
+
 
     //No cards entered.  Every single magic card is still possible.
     if (limits.lower.index == undefined && limits.upper.index == undefined) {return false;}
 
+    var cardOrder = ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless", "Nonbasic Land", "Basic Land"];
+
     //Determine limiting colors
     for (bound in limits){
       console.log(limits[bound]);
-      var cardObject = createCardObject($scope.allSpoiledCards[limits[bound].index].name);
-      if(limits[bound].index && cardObject.hasOwnProperty('colors')){
+      //If no spoiled card was bounding, continue
+      if(!limits[bound].cardname){continue;}
+
+      limits[bound].cardObject = createCardObject(limits[bound].cardname);
+
+      if(!limits[bound].cardObject.hasOwnProperty('colors')){
         //No Colors
-        if(cardObject.type.includes('Basic')){
-          limits[bound].color = "Basic Land";
+        if(limits[bound].cardObject.type.includes('Basic')){
+          limits[bound].order = "Basic Land";
         } else if (cardObject.type.includes('Land')){
-          limits[bound].color = "Nonbasic Land";
+          limits[bound].order = "Nonbasic Land";
         } else {
-          limits[bound].color = "Colorless";
+          limits[bound].order = "Colorless";
         }
       } else if (cardObject.colors.length > 1){
         //Multi-color
-        limits[bound].color = "Gold";
+        limits[bound].order = "Gold";
       } else {
-        limits[bound].color = cardObject.colors[0];
+        //Mono-color, pick first and only
+        limits[bound].order = limits[bound].cardObject.colors[0];
       }
     }
 
