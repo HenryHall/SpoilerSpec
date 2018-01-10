@@ -235,9 +235,9 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
 
 function setActive(elem){
-  var currentActive = document.getElementsByClassName('active')[0];
-  currentActive ? currentActive.classList.remove('active') : console.log('No class is currently active.');
-  return elem.classList.add('active');
+  var currentActive = document.getElementsByClassName('info')[0];
+  currentActive ? currentActive.classList.remove('info') : console.log('No class is currently "info".');
+  return elem.parentNode.classList.add('info');
 }
 
 
