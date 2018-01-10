@@ -166,7 +166,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
       console.log(limits.upper, limits.lower);
       console.log(limits[bound]);
       //If no spoiled card was bounding, continue
-      if(!limits[bound].hasOwnProperty(cardname)){
+      if(!limits[bound].hasOwnProperty('cardname')){
         bound == upper ? limits[bound].order = "Basic Land" : limits[bound].order = "White";
         continue;
       }
