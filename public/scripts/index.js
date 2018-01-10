@@ -188,6 +188,7 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
       }
     };
 
+    console.log(outputList);
     return $scope.possibleCards = outputList;
 
   }
@@ -227,69 +228,6 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 //   }
 // });
 
-
-
-// function sortSpoilerCollection(spoilerArr){
-//
-//   var cardOrder = ["White", "Blue", "Black", "Red", "Green", "Gold", "Colorless", "Nonbasic Land", "Basic Land"];
-//
-//   spoilerArr.sort( (a, b) => {
-//     var colorA, colorB, nameA, nameB;
-//
-//     nameA = a.cardObject.name;
-//     nameB = b.cardObject.name;
-//
-//     if(!a.cardObject.hasOwnProperty('colors')){
-//       //No Colors
-//       if(a.cardObject.type.includes('Basic')){
-//         colorA = "Basic Land";
-//       } else if (a.cardObject.type.includes('Land')){
-//         colorA = "Nonbasic Land";
-//       } else {
-//         colorA = "Colorless";
-//       }
-//     } else if (a.cardObject.colors.length > 1){
-//       //Multi-color
-//       colorA = "Gold";
-//     } else {
-//       colorA = a.cardObject.colors[0];
-//     }
-//
-//     if(!b.cardObject.hasOwnProperty('colors')){
-//       //No Colors
-//       if(b.cardObject.type.includes('Basic')){
-//         colorB = "Basic Land";
-//       } else if (b.cardObject.type.includes('Land')){
-//         colorB = "Nonbasic Land";
-//       } else {
-//         colorB = "Colorless";
-//       }
-//     } else if (b.cardObject.colors.length > 1){
-//       //Multi-color
-//       colorB = "Gold";
-//     } else {
-//       colorB = b.cardObject.colors[0];
-//     }
-//
-//     //a is before b = 1
-//     //b is before a = -1
-//     if(cardOrder.indexOf(colorsA) > cardOrder.indexOf(colorsB)){
-//       return 1;
-//     } else if (cardOrder.indexOf(colorsA) < cardOrder.indexOf(colorsB)){
-//       return -1;
-//     } else {
-//       //Same colorOrder
-//       if(nameA > nameB){
-//         return 1;
-//       } else {
-//         return -1;
-//       }
-//     }
-//   });
-//
-//   return spoilerArr;
-//
-// }
 
 function determineOrder(cardObject){
   if(!cardObject.hasOwnProperty('colors')){
