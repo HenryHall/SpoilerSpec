@@ -77,8 +77,12 @@
             <tr>
               <th>Card Name</th>
             </tr>
-            <tr ng-repeat="card in possibleCards | orderBy:'card.cardname'">
-              <td>{{card.cardname}}</td>
+            <tr ng-repeat="card in possibleCards | orderBy:'cardname'">
+              <td>
+                <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
+                {{card.cardname}}
+              </td>
             </tr>
           </table>
         </div>

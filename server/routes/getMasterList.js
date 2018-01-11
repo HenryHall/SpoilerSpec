@@ -7,6 +7,7 @@ router.get('/', function(req, res){
 
   pg.connect(connection, function(err, client, done){
     var results = [];
+    console.log(connection);
     var query = client.query('SELECT * FROM spoilermasterlist');
 
     query.on('row', function(row){
