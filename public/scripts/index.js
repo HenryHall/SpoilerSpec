@@ -141,11 +141,11 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     console.log("Looking for cards near collector number: ", slotNumber);
     //Stats for the known cards before and after this slot
     var limits = {
-      upper: undefined,
-      lower: undefined
+      upper: {},
+      lower: {}
     };
 
-    var min = 0;
+    var min = 1;
     var max = setSize + 1;
     //For each card, if it has a name and met bound conditions...
     $scope.allSpoiledCards.forEach((card, i, arr) => {
@@ -160,14 +160,14 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
 
 
     //No cards entered.  Every single magic card is still possible.
-    if (limits.lower == undefined && limits.upper == undefined) {return false;}
+    if (angular.equals(limits.lower, {}) && angular.equals(limits.upper, {})) {return false;}
 
 
     //Determine limiting colors
     for (bound in limits){
       //If no spoiled card was bounding, set order and continue
-      if(limits[bound] == undefined){
-        bound == upper ? limits[bound].order = "Basic Land" : limits[bound].order = "White";
+      if(angular.equals(limits[bound], {})) {
+        bound == 'upper' ? limits[bound].order = "Basic Land" : limits[bound].order = "White";
         continue;
       }
 
@@ -184,13 +184,25 @@ myApp.controller('mainController', ['$scope', '$http', function($scope, $http){
     for (card in allCardsMaster){
       iCardOrder = determineOrder(allCardsMaster[card]);
       //Check order key
-      if(cardOrderKey.indexOf(iCardOrder) >= cardOrderKey.indexOf(limits.lower.order)  && cardOrderKey.indexOf(iCardOrder) <= cardOrderKey.indexOf(limits.upper.order)){
-        //Check alphabetical
-        if(allCardsMaster[card].name > limits.lower.cardname && allCardsMaster[card].name < limits.upper.cardname){
+      if(cardOrderKey.indexOf(limits.lower.order) <= cardOrderKey.indexOf(iCardOrder)  && cardOrderKey.indexOf(iCardOrder) <= cardOrderKey.indexOf(limits.upper.order)){
+        //Within order bounds
+        if(limits.lower.order == limits.upper.order){
+          if( (limits.lower.cardname || "") < allCardsMaster[card].name && allCardsMaster[card].name < (limits.upper.cardname || "ZZZZZZZZZZ")){
+            outputList.push({cardname: allCardsMaster[card].name});
+          }
+        } else if (iCardOrder == limits.lower.order){
+          if((limits.lower.cardname || "") < allCardsMaster[card].name){
+            outputList.push({cardname: allCardsMaster[card].name});
+          }
+        } else if (iCardOrder == limits.upper.order){
+          if(allCardsMaster[card].name < (limits.upper.cardname || "ZZZZZZZZZZ")){
+            outputList.push({cardname: allCardsMaster[card].name});
+          }
+        } else {
           outputList.push({cardname: allCardsMaster[card].name});
         }
       }
-    };
+    }
 
     console.log(outputList);
     return $scope.possibleCards = outputList;
